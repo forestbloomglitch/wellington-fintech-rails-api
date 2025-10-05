@@ -1,4 +1,5 @@
-# Temporary simple Rack app for Railway deployment testing
-require_relative 'simple_app'
+# This file is used by Rack-based servers to start the application.
 
-run SimpleApp.new
+require_relative 'config/environment'
+
+run Rails.application
