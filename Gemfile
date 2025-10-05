@@ -1,8 +1,8 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# Using current Ruby version for compatibility
-ruby "2.6.10"
+# Using modern Ruby version for Railway compatibility
+ruby "3.1.0"
 
 # Core Rails API - compatible version
 gem "rails", "~> 6.1.7"
