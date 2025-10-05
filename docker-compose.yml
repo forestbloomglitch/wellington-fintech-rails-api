@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: wellington_fintech_db
+    environment:
+      POSTGRES_DB: wellington_fintech_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and background jobs
+  redis:
+    image: redis:7-alpine
+    container_name: wellington_fintech_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Sidekiq for background job processing
+  sidekiq:
+    build: .
+    container_name: wellington_fintech_sidekiq
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    depends_on:
+      - db
+      - redis
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/wellington_fintech_development
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    restart: unless-stopped
+
+  # Rails API application
+  web:
+    build: .
+    container_name: wellington_fintech_api
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/wellington_fintech_development
+      - REDIS_URL=redis://redis:6379/0
+      - BINDING=0.0.0.0
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx reverse proxy (for production-like setup)
+  nginx:
+    image: nginx:alpine
+    container_name: wellington_fintech_nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - ./config/nginx/development.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  bundle_cache:
+    driver: local
+
+networks:
+  default:
+    name: wellington_fintech_network

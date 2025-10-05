@@ -1,0 +1,35 @@
+# PostgreSQL configuration for Wellington FinTech API
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: wellington_fintech_development
+  username: <%= ENV['DATABASE_USER'] || 'postgres' %>
+  password: <%= ENV['DATABASE_PASSWORD'] || '' %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  port: <%= ENV['DATABASE_PORT'] || 5432 %>
+
+test:
+  <<: *default
+  database: wellington_fintech_test
+  username: <%= ENV['DATABASE_USER'] || 'postgres' %>
+  password: <%= ENV['DATABASE_PASSWORD'] || '' %>
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  port: <%= ENV['DATABASE_PORT'] || 5432 %>
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+  # For Railway/Heroku deployment
+  database: <%= ENV['PGDATABASE'] %>
+  username: <%= ENV['PGUSER'] %>
+  password: <%= ENV['PGPASSWORD'] %>
+  host: <%= ENV['PGHOST'] %>
+  port: <%= ENV['PGPORT'] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 25 } %>
+  # SSL settings for production
+  sslmode: require
