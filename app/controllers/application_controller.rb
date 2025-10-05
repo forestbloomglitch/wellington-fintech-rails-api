@@ -66,7 +66,9 @@ class ApplicationController < ActionController::API
   
   # Placeholder for authentication (would integrate with JWT in production)
   def current_user
-    @current_user ||= User.first # Demo mode - would use JWT token in production
+    # Demo mode - would use JWT token in production
+    # Skip database lookup to avoid startup issues
+    nil
   end
   
   def current_organization
