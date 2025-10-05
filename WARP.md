@@ -10,18 +10,33 @@ This is the **Wellington FinTech Rails API Suite** - a comprehensive financial s
 
 ## Quick Start
 
-### Prerequisites
-- Ruby 3.2+
+### GitHub Codespaces (Recommended)
+**One-click development environment with full NZ compliance stack:**
+
+1. **Open in Codespaces**: Click "Code" > "Codespaces" > "Create codespace on main"
+2. **Automatic setup**: The `.devcontainer` will automatically:
+   - Set up Ruby 3.1.0 + Rails environment
+   - Launch PostgreSQL 15 + Redis 7
+   - Install all dependencies and gems
+   - Create and seed database with NZ compliance data
+   - Configure VS Code with Rails extensions
+3. **Start developing**: Server will be available at `https://[codespace-name]-3000.app.github.dev`
+
+```bash
+# Once Codespace is ready:
+bundle exec rails server -b 0.0.0.0  # Start server
+curl http://localhost:3000/api/v1/status  # Test API
+```
+
+### Local Development (Alternative)
+- Ruby 3.1.0+
 - PostgreSQL 15+
 - Redis 7+
 - Docker & Docker Compose
 
-### Initial Setup
 ```bash
-# Generate new Rails API application (since it doesn't exist yet)
-rails new . --api --database=postgresql --skip-git --force
-
-# Install dependencies
+# Use the full Rails Gemfile
+cp Gemfile.complex Gemfile
 bundle install
 
 # Database setup
@@ -80,7 +95,28 @@ curl http://localhost:3000/api/v1/status
 
 ## Development Commands
 
-### Setup & Installation
+### GitHub Codespaces Commands
+```bash
+# Server management
+bundle exec rails server -b 0.0.0.0    # Start Rails server (accessible externally)
+bundle exec sidekiq                     # Start background jobs
+
+# Database operations
+rails db:migrate                        # Run migrations
+rails db:seed                          # Load NZ compliance sample data
+rails console                          # Rails console
+
+# Testing & Quality
+rspec                                  # Run test suite
+rubocop                               # Code style check
+brakeman                              # Security scan
+
+# API testing
+curl https://$(echo $CODESPACE_NAME)-3000.app.github.dev/health
+curl https://$(echo $CODESPACE_NAME)-3000.app.github.dev/api/v1/status
+```
+
+### Local Development Setup
 ```bash
 bundle install                    # Install gems
 rails db:setup                   # Create and seed database
