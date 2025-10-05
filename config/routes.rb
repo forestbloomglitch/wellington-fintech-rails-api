@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Root endpoint for API information
+  root 'api_info#index'
+  
   # Health check endpoint
   get '/health', to: 'health#show'
   
