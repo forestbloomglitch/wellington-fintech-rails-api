@@ -63,21 +63,21 @@ curl http://localhost:3000/api/v1/status
 - **No always-on costs** like traditional hosting
 - **Perfect for portfolio demos** and development
 
-### 🏆 Immigration Portfolio Benefits
+### 🏆 Learning Portfolio Benefits
 
 This setup demonstrates:
-- **Modern DevOps practices** with containerized development
-- **Enterprise Rails architecture** with proper database design
-- **New Zealand regulatory expertise** built into the application
-- **Production-ready deployment patterns**
+- **Modern development practices** with containerized development
+- **Rails application structure** with proper database design
+- **New Zealand regulatory research** built into sample data
+- **Development environment configuration**
 
-### 📞 Employer Demonstration
+### 📞 Technical Demonstration
 
-Share your Codespace URL directly with potential employers:
+Share your Codespace URL with potential employers to show:
 `https://[your-codespace-name]-3000.app.github.dev/api/v1/status`
 
-This provides instant access to a live, working API demonstrating your Rails and NZ compliance expertise.
+This provides access to a development API demonstrating Rails knowledge and NZ compliance research.
 
 ---
 
-**🇳🇿 Ready to showcase Wellington-caliber Rails development with zero setup time!**
+**🇳🇿 A technical demonstration project showcasing Rails development skills and NZ regulatory understanding.**

@@ -4,9 +4,9 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Project Overview
 
-This is the **Wellington FinTech Rails API Suite** - a comprehensive financial services API designed for New Zealand's regulatory environment. The project demonstrates enterprise-grade Rails development with deep compliance integration for RBNZ, IRD, and FMA requirements.
+This is the **Wellington FinTech Rails API** - a learning project demonstrating Rails development with New Zealand regulatory compliance research. The project shows understanding of RBNZ, IRD, and FMA requirements through sample data and API structure.
 
-**Current Status**: This is a planned architecture repository containing documentation and configuration. The actual Rails application structure needs to be generated.
+**Current Status**: This is a demonstration/learning repository with Rails application structure, sample compliance data, and development environment configuration.
 
 ## Quick Start
 
